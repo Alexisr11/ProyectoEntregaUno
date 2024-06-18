@@ -80,7 +80,7 @@ public class Controlador {
         try {
             cantidad = Integer.parseInt(cantidadStr);
             if (cantidad <= 0) {
-                throw new NumberFormatException();
+                JOptionPane.showMessageDialog(this.vista, "CAntidad no permitida");
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this.vista, "Cantidad inválida.");
@@ -95,5 +95,31 @@ public class Controlador {
             return;
         }
 
+        Modelo pedido = new Modelo(nombreMedicamento, tipoMedicamento, cantidad, distribuidor, sucursalPrincipal, sucursalSecundaria);
+        mostrarResumen(pedido);
+    }
+    
+    private void mostrarResumen(Modelo pedido) {
+        
+        String cantidad = String.valueOf(pedido.getCantidad());
+        String distribuidor = pedido.getDistribuidor();
+        String medicamento = pedido.getNombreMedicamento();
+        String tipoMedicamento = pedido.getTipoMedicamento();
+        String sucursal = "";
+        
+        String mensaje = "Pedido al distribuidor " + pedido.getDistribuidor() + "\n";
+        mensaje += pedido.getCantidad() + " unidades del " + pedido.getTipoMedicamento() + " " + pedido.getNombreMedicamento() + "\n";
+        if (pedido.isSucursalPrincipal()) {
+            mensaje += "Para la farmacia situada en Calle de la Rosa n. 28\n";
+            sucursal = "Para la farmacia situada en Calle de la Rosa n. 28\n";
+        }
+        if (pedido.isSucursalSecundaria()) {
+            mensaje += "Para la farmacia situada en Calle Alcazabilla n. 3\n";
+            sucursal = "Para la farmacia situada en Calle Alcazabilla n. 3\n";
+        }
+
+        int opcion = JOptionPane.showConfirmDialog(this.vista, mensaje, "Resumen del Pedido", JOptionPane.OK_CANCEL_OPTION);
+        if (opcion == JOptionPane.OK_OPTION) {
+        }
     }
 }
